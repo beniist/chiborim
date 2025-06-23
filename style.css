@@ -1,0 +1,74 @@
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f7f7fa;
+    margin: 0;
+    direction: rtl;
+}
+.container {
+    max-width: 420px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 32px 24px;
+}
+h1 {
+    text-align: center;
+    color: #2a3b4c;
+    margin-bottom: 24px;
+}
+form label {
+    display: block;
+    margin: 16px 0 6px 0;
+    color: #2a3b4c;
+    font-weight: 500;
+}
+select, input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 1em;
+    background: #f9f9fb;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: #2a7ae4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+    margin-top: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+button:hover {
+    background: #1857a4;
+}
+.suggestions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 0 0 6px 6px;
+    max-height: 120px;
+    overflow-y: auto;
+    position: absolute;
+    width: calc(100% - 2px);
+    z-index: 10;
+    display: none;
+}
+.suggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+.suggestions li:hover {
+    background: #f0f4fa;
+}
+#results {
+    margin-top: 32px;
+} 

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חיבורים - התחברות</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 40px 32px;
+        }
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 24px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #666;
+            border-bottom: 2px solid transparent;
+        }
+        .auth-tab.active {
+            color: #2a7ae4;
+            border-bottom-color: #2a7ae4;
+        }
+        .auth-form {
+            display: none;
+        }
+        .auth-form.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: #2a3b4c;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: #2a7ae4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .btn-primary:hover {
+            background: #1857a4;
+        }
+        .error-message {
+            color: #e74c3c;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        .success-message {
+            color: #27ae60;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1>חיבורים</h1>
+        
+        <div class="auth-tabs">
+            <button class="auth-tab active" data-tab="signin">התחברות</button>
+            <button class="auth-tab" data-tab="signup">הרשמה</button>
+        </div>
+
+        <!-- טופס התחברות -->
+        <form id="signinForm" class="auth-form active">
+            <div class="form-group">
+                <label for="signinEmail">אימייל:</label>
+                <input type="email" id="signinEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signinPassword">סיסמה:</label>
+                <input type="password" id="signinPassword" required>
+            </div>
+            <button type="submit" class="btn-primary">התחבר</button>
+            <div id="signinMessage"></div>
+        </form>
+
+        <!-- טופס הרשמה -->
+        <form id="signupForm" class="auth-form">
+            <div class="form-group">
+                <label for="signupFullName">שם מלא:</label>
+                <input type="text" id="signupFullName" required>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">אימייל:</label>
+                <input type="email" id="signupEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPhone">טלפון:</label>
+                <input type="tel" id="signupPhone">
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">סיסמה:</label>
+                <input type="password" id="signupPassword" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label for="signupConfirmPassword">אימות סיסמה:</label>
+                <input type="password" id="signupConfirmPassword" required>
+            </div>
+            <button type="submit" class="btn-primary">הירשם</button>
+            <div id="signupMessage"></div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script>
+        // החלפת טאבים
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetTab = this.dataset.tab;
+                
+                // עדכון טאבים
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                // עדכון טפסים
+                document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                document.getElementById(targetTab + 'Form').classList.add('active');
+            });
+        });
+
+        // טופס התחברות
+        document.getElementById('signinForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('signinEmail').value;
+            const password = document.getElementById('signinPassword').value;
+            const messageDiv = document.getElementById('signinMessage');
+            
+            const result = await supabaseManager.signIn(email, password);
+            
+            if (result.success) {
+                messageDiv.innerHTML = '<div class="success-message">התחברת בהצלחה! מעביר לעמוד הראשי...</div>';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                messageDiv.innerHTML = '<div class="error-message">שגיאה: ' + result.error + '</div>';
+            }
+        });
+
+        // טופס הרשמה
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('signupFullName').value;
+            const email = document.getElementById('signupEmail').value;
+            const phone = document.getElementById('signupPhone').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const messageDiv = document.getElementById('signupMessage');
+            
+            // בדיקת סיסמאות
+            if (password !== confirmPassword) {
+                messageDiv.innerHTML = '<div class="error-message">הסיסמאות אינן תואמות</div>';
+                return;
+            }
+            
+            const userData = {
+                full_name: fullName,
+                phone: phone
+            };
+            
+            const result = await supabaseManager.signUp(email, password, userData);
+            
+            if (result.success) {
+                messageDiv.innerHTML = '<div class="success-message">נרשמת בהצלחה! נשלח אימייל לאימות החשבון.</div>';
+                // לאחר הרשמה מוצלחת, נשאר בדף כדי שהמשתמש יוכל להיכנס
+            } else {
+                messageDiv.innerHTML = '<div class="error-message">שגיאה: ' + result.error + '</div>';
+            }
+        });
+
+        // בדיקה אם המשתמש כבר מחובר
+        window.addEventListener('load', async function() {
+            const user = await supabaseManager.getCurrentUser();
+            if (user) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>חיבורים</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="userInfo" style="display: none; margin-bottom: 20px; padding: 10px; background: #f0f4fa; border-radius: 6px;">
+            <span id="userName"></span>
+            <button id="logoutBtn" style="float: left; background: #e74c3c; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">התנתק</button>
+        </div>
+        <h1>חיבורים</h1>
+        <form id="connectionForm">
+            <label for="connectionType">איזה סוג של חיבור אתה מחפש?</label>
+            <select id="connectionType" name="connectionType" required>
+                <option value="">בחר סוג חיבור</option>
+                <option value="barter">ברטר</option>
+                <option value="service">שירות בד'ענה</option>
+                <option value="collaboration">שיתוף פעולה</option>
+                <option value="acquaintance">הכרות</option>
+                <option value="help">עזרה</option>
+                <option value="advice">עצה</option>
+                <option value="recommendation">המלצה</option>
+            </select>
+            <label for="offerOrRequest">אני רוצה:</label>
+            <select id="offerOrRequest" name="offerOrRequest" required>
+                <option value="">בחר</option>
+                <option value="give">לתת</option>
+                <option value="get">לקבל</option>
+            </select>
+            <label for="region">אזור בארץ:</label>
+            <select id="region" name="region" required>
+                <option value="">בחר אזור</option>
+                <option value="south">דרום</option>
+                <option value="north">צפון</option>
+                <option value="center">מרכז</option>
+                <option value="shfela">שפלה</option>
+                <option value="jerusalem">ירושלים</option>
+                <option value="sharon">השרון</option>
+            </select>
+            <label for="city">חיפוש לפי עיר:</label>
+            <input type="text" id="city" name="city" autocomplete="off" placeholder="התחל להקליד עיר..." required>
+            <ul id="citySuggestions" class="suggestions"></ul>
+            <button type="submit">חפש חיבורים</button>
+        </form>
+        <button id="createConnection">צור חיבור חדש</button>
+        <div id="results"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
