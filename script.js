@@ -107,7 +107,7 @@ function displayResults(connections) {
             <p><strong>אזור:</strong> ${getRegionText(connection.region)}</p>
             <p><strong>עיר:</strong> ${connection.city}</p>
             <p><strong>תיאור:</strong> ${connection.description || 'אין תיאור'}</p>
-            <p><strong>תאריך:</strong> ${new Date(connection.created_date).toLocaleDateString('he-IL')}</p>
+            <p><strong>תאריך:</strong> ${new Date(connection.created_at).toLocaleDateString('he-IL')}</p>
         `;
         resultsDiv.appendChild(connectionDiv);
     });
@@ -186,7 +186,6 @@ async function handleCreateConnection(e) {
         region: formData.get('region'),
         city: formData.get('city'),
         description: formData.get('description'),
-        created_date: new Date().toISOString(),
         status: 'active'
     };
     

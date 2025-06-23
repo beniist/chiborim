@@ -139,7 +139,7 @@ class SupabaseManager {
                 .from('connections')
                 .select('*')
                 .eq('user_id', userId)
-                .order('created_date', { ascending: false });
+                .order('created_at', { ascending: false });
             
             if (error) throw error;
             return { success: true, data };
@@ -203,7 +203,7 @@ class SupabaseManager {
             }
             
             const { data, error } = await query
-                .order('created_date', { ascending: false })
+                .order('created_at', { ascending: false })
                 .limit(50);
             
             if (error) throw error;

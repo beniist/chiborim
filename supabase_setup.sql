@@ -28,7 +28,6 @@ CREATE TABLE IF NOT EXISTS connections (
     is_negotiable BOOLEAN DEFAULT true,
     tags TEXT[],
     status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'completed', 'cancelled')),
-    created_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     expires_date TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -40,7 +39,6 @@ CREATE TABLE IF NOT EXISTS matches (
     connection1_id UUID REFERENCES connections(id) ON DELETE CASCADE,
     connection2_id UUID REFERENCES connections(id) ON DELETE CASCADE,
     status VARCHAR(20) DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
-    created_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -108,7 +106,7 @@ CREATE INDEX idx_connections_type ON connections(connection_type);
 CREATE INDEX idx_connections_region ON connections(region);
 CREATE INDEX idx_connections_city ON connections(city);
 CREATE INDEX idx_connections_status ON connections(status);
-CREATE INDEX idx_connections_created_date ON connections(created_date);
+CREATE INDEX idx_connections_created_at ON connections(created_at);
 
 CREATE INDEX idx_messages_sender ON messages(sender_id);
 CREATE INDEX idx_messages_receiver ON messages(receiver_id);
